@@ -1,25 +1,17 @@
 %form{:action => '/compare', :method => 'GET'}
-  %select{:name => 'award', :style => 'display: block;margin-bottom: 3px'}
+  %select{:name => 'award', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- award --
     - Comparer::Picture.awards.each do |award|
       %option{:value => award, :selected => params[:award] == award}= award
-  %select{:name => 'review', :style => 'display: block;margin-bottom: 3px'}
+  %select{:name => 'review', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- review --
     %option{:value => 'fake'} Fake
     %option{:value => 'original'} Origineel
-  %select{:name => 'maker', :style => 'display: block;margin-bottom: 3px'}
+  %select{:name => 'maker', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- maker --
     - Comparer::Picture.makers.each do |maker|
       %option{:value => maker, :selected => params[:maker] == maker}= maker
-  %select{:name => 'material', :style => 'display: block;margin-bottom: 3px'}
-    %option{:value => ''} -- materiaal --
-    - Comparer::Picture.materials.each do |material|
-      %option{:value => material, :selected => params[:material] == material}= material
-  %select{:name => 'reverse', :style => 'display: block;margin-bottom: 3px'}
-    %option{:value => ''} -- reverse --
-    - Comparer::Picture.reverses.each do |reverse|
-      %option{:value => reverse, :selected => params[:reverse] == reverse}= reverse
-  %input{:type => 'submit', :value => 'Toon Afbeeldingen', :style => 'display:block'}
+  %input{:type => 'submit', :value => 'Toon Afbeeldingen'}
 
 #chosen_image
   %h3 Kies een bestand
@@ -32,7 +24,7 @@
   %br
  
   - if @pictures
-    %ul{:style => 'margin-top:23px'}
+    %ul{:style => 'margin-top:22px'}
       - @pictures.each do |picture|
         %li.image
           %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name}
