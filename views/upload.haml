@@ -6,18 +6,22 @@
     %label{:for => 'review'} Review
     %select{:name => 'review', :style => 'margin-left: 110px;display: block', :id => 'review'}
       %option{:value => 'fake'} Fake
-      %option{:value => 'original'} Origineel
+      %option{:value => 'original'} Original
   %p
     %label{:for => 'maker'} Maker
     %input{:type => 'text', :name => 'maker', :placeholder => 'Maker', :id => 'maker'}
   %p
-    %label{:for => 'material'} Materiaal
+    %label{:for => 'material'} Material
     %input{:type => 'text', :name => 'material', :placeholder => 'Materiaal', :id => 'material'}
   %p
     %label{:for => 'reverse'} Reverse
-    %input{:type => 'text', :name => 'reverse', :placeholder => 'Reverse', :id => 'reverse'}
+    %select{:name => 'reverse', :style => 'margin-left: 110px;display: block', :id => 'reverse'}
+      %option{:value => 'hollow'} Hollow
+      %option{:value => 'full'} Full
+      %option{:value => 'semi-hollow'} Semi-Hollow
+    -#%input{:type => 'text', :name => 'reverse', :placeholder => 'Reverse', :id => 'reverse'}
   %p
-    %label{:for => 'pictures'} Bestand
+    %label{:for => 'pictures'} File
     %input{:type => 'file', :name => 'picture', :id => 'pictures'}
   %p
     %input{:type => 'submit', :value => 'Uploaden'}

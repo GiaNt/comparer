@@ -6,21 +6,29 @@
   %select{:name => 'review', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- review --
     %option{:value => 'fake'} Fake
-    %option{:value => 'original'} Origineel
+    %option{:value => 'original'} Original
   %select{:name => 'maker', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- maker --
     - Comparer::Picture.makers.each do |maker|
       %option{:value => maker, :selected => params[:maker] == maker}= maker
+  %select{:name => 'reverse', :style => 'margin-bottom:3px;'}
+    %option{:value => ''} -- reverse --
+    %option{:value => 'hollow'} Hollow
+    %option{:value => 'full'} Full
+    %option{:value => 'semi-hollow'} Semi-Hollow
   %input{:type => 'submit', :value => 'Toon Afbeeldingen'}
 
 #chosen_image
-  %h3 Kies een bestand
+  %h3
+    Browse and choose a picture
+    |
+    %a{:href => '/upload'} Upload new file
   %input{:type => 'file', :onchange => 'readURL(this)', :style => 'margin: 0'}
   %br
   %img#selected_image
 
 #image_list
-  %h3 Lijst
+  %h3 Existing picture list
   %br
  
   - if @pictures
@@ -29,7 +37,4 @@
         %li.image
           %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name}
   - else
-    Selecteer filteropties...
-
-%p
-  %a{:href => '/upload'} Nieuw Bestand Uploaden
+    Select filter options...

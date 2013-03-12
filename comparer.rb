@@ -45,10 +45,6 @@ module Comparer
       fields(:material).map(&:material).uniq.compact
     end
 
-    def self.reverses
-      fields(:reverse).map(&:reverse).uniq.compact
-    end
-
     #def tag_names=(given_tags)
     #  self.tags = given_tags.split(/,\s*/).map(&:downcase)
     #end
@@ -63,7 +59,7 @@ module Comparer
     set :run, Proc.new { false }
 
     get '/compare' do
-      title 'Vergelijk Afbeeldingen'
+      title 'Compare Pictures'
 
       if params[:award] && !params[:award].empty?
         @pictures = (@pictures || Picture).where(:award => params[:award])
@@ -85,7 +81,7 @@ module Comparer
     end
 
     get '/upload' do
-      title 'Upload Nieuwe Afbeelding'
+      title 'Upload New Picture'
 
       haml :upload
     end
