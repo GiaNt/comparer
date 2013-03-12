@@ -11,24 +11,47 @@ module Comparer
     include MongoMapper::Document
     plugin Joint
 
-    key :tags, Array, typecast: 'String'
+    #key :tags, Array, typecast: 'String'
+    key :award,    String
+    key :review,   String
+    key :maker,    String
+    key :material, String
+    key :reverse,  String
+
     timestamps!
     attachment :file
 
-    validates_format_of :tag_names, :with => /\A([A-Z\s\-]+,?)*\z/i
+    #validates_format_of :tag_names, :with => /\A([A-Z\s\-]+,?)*\z/i
+    validates_format_of :file_type, :with => %r{^image/.+}i
     #validates_numericality_of :file_size, :less_than => 524288 # 512kb
 
-    def self.tags
-      fields(:tags).flat_map(&:tags).uniq
+    #def self.tags
+    #  fields(:tags).flat_map(&:tags).uniq
+    #end
+
+    def self.awards
+      fields(:award).map(&:award).uniq.compact
     end
 
-    def tag_names=(given_tags)
-      self.tags = given_tags.split(/,\s*/).map(&:downcase)
+    def self.makers
+      fields(:maker).map(&:maker).uniq.compact
     end
 
-    def tag_names
-      tags.join(', ')
+    def self.materials
+      fields(:material).map(&:material).uniq.compact
     end
+
+    def self.reverses
+      fields(:reverse).map(&:reverse).uniq.compact
+    end
+
+    #def tag_names=(given_tags)
+    #  self.tags = given_tags.split(/,\s*/).map(&:downcase)
+    #end
+
+    #def tag_names
+    #  tags.join(', ')
+    #end
   end
 
   class App < Sinatra::Base
@@ -37,8 +60,20 @@ module Comparer
     get '/compare' do
       title 'Vergelijk Afbeeldingen'
 
-      if params[:tag] && !params[:tag].empty?
-        @pictures = Picture.where(tags: params[:tag]).sort(:created_at.desc)
+      if params[:award] && !params[:award].empty?
+        @pictures = (@pictures || Picture).where(:award => params[:award])
+      end
+      if params[:review] && !params[:review].empty?
+        @pictures = (@pictures || Picture).where(:review => params[:review])
+      end
+      if params[:maker] && !params[:maker].empty?
+        @pictures = (@pictures || Picture).where(:maker => params[:maker])
+      end
+      if params[:material] && !params[:material].empty?
+        @pictures = (@pictures || Picture).where(:material => params[:material])
+      end
+      if params[:reverse] && !params[:reverse].empty?
+        @pictures = (@pictures || Picture).where(:reverse => params[:reverse])
       end
 
       haml :compare
@@ -54,7 +89,12 @@ module Comparer
       picture = Picture.new
       picture.file = params[:picture][:tempfile]
       picture.file_name = params[:picture][:filename]
-      picture.tag_names = params[:tags]
+      #picture.tag_names = params[:tags]
+      picture.award = params[:award]
+      picture.review = params[:review]
+      picture.maker = params[:maker]
+      picture.material = params[:material]
+      picture.review = params[:review]
 
       haml :upload and return unless picture.save
 
