@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'sinatra', '1.3.5'
+gem 'mongo', '~> 1.1'
+gem 'bson', '~> 1.1.5'
+gem 'bson_ext', '~> 1.1.5'
+gem 'mongo_mapper', '~> 0.8.6'
+gem 'joint', '~> 0.5.5'
+gem 'haml', '~> 3.0.18'
+gem 'activesupport', '3.0.10'
+gem 'i18n', '~> 0.5.0'
