@@ -8,10 +8,12 @@
     %script{:src => '/js/zoom.js'}
     :javascript
       jQuery(function($) {
-        $('img').addpowerzoom({
-          defaultpower: 2,
-          powerrange: [2, 2],
-          magnifiersize: [100, 100]
+        $('li.image img').each(function() {
+          $(this).addpowerzoom({
+            defaultpower: 2,
+            powerrange: [2, 2],
+            magnifiersize: [100, 100]
+          });
         });
       });
     :javascript
