@@ -7,6 +7,10 @@ module Comparer
     App
   end
 
+  def self.clear_db!
+    Picture.all.each &:destroy
+  end
+
   class Picture
     include MongoMapper::Document
     plugin Joint
@@ -56,6 +60,7 @@ module Comparer
 
   class App < Sinatra::Base
     set :app_file, __FILE__
+    set :run, Proc.new { false }
 
     get '/compare' do
       title 'Vergelijk Afbeeldingen'

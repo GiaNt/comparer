@@ -10,19 +10,17 @@
       jQuery(function($) {
         $('img').addpowerzoom();
       });
-
     :javascript
       function readURL(input) {
         if (input.files && input.files[0]) {
           var reader = new FileReader();
 
           reader.onload = function (e) {
-            $('#selected_image').attr('src', e.target.result);
+            jQuery('#selected_image').attr('src', e.target.result);
           }
           reader.readAsDataURL(input.files[0]);
         }
       }
-
     :css
       body { font-family: 'Helvetica Neue', Helvetica, Arial, Georgia, sans-serif; font-size: 12px; }
       #title { margin-top: 0; }
@@ -33,9 +31,10 @@
       #image_list { width: 380px; display: inline-block; vertical-align: top; }
       #image_list ul { margin: 0; padding: 0; height: 500px; overflow: auto; }
       #image_list li.image { list-style-type: none; margin: 0; padding: 0; }
-      #image_list li.image img { max-width: 380px; width: 380px; }
+      #image_list li.image img { max-width: 380px; }
       #chosen_image { width: 380px; display: inline-block; vertical-align: top; }
-      #selected_image { max-width: 380px; width: 380px; }
+      #selected_image { max-width: 380px; }
+
   %body
     #content
       %h1#title
