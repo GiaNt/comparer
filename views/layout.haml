@@ -1,10 +1,16 @@
-!!!
+!!! 5
 %html
   %head
     %title
       = title
       \- Vergelijker
-    %script{:src => 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'}
+    %script{:src => '/js/jquery.js'}
+    %script{:src => '/js/zoom.js'}
+    :javascript
+      jQuery(function($) {
+        $('img').addpowerzoom();
+      });
+
     :javascript
       function readURL(input) {
         if (input.files && input.files[0]) {
@@ -27,9 +33,9 @@
       #image_list { width: 380px; display: inline-block; vertical-align: top; }
       #image_list ul { margin: 0; padding: 0; height: 500px; overflow: auto; }
       #image_list li.image { list-style-type: none; margin: 0; padding: 0; }
-      #image_list li.image img { max-width: 380px; }
+      #image_list li.image img { max-width: 380px; width: 380px; }
       #chosen_image { width: 380px; display: inline-block; vertical-align: top; }
-      #selected_image { max-width: 380px; }
+      #selected_image { max-width: 380px; width: 380px; }
   %body
     #content
       %h1#title
