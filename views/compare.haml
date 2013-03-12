@@ -35,6 +35,6 @@
     %ul{:style => 'margin-top:22px'}
       - @pictures.each do |picture|
         %li.image
-          %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name}
+          %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id}
   - else
     Select filter options...
