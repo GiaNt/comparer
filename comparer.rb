@@ -45,7 +45,7 @@ module Comparer
     end
 
     get '/upload' do
-      title 'Upload Nieuwe Afbeelding(en)'
+      title 'Upload Nieuwe Afbeelding'
 
       haml :upload
     end
