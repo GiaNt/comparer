@@ -21,6 +21,12 @@
       %option{:value => reverse, :selected => params[:reverse] == reverse}= reverse
   %input{:type => 'submit', :value => 'Toon Afbeeldingen', :style => 'display:block'}
 
+#chosen_image
+  %h3 Kies een bestand
+  %input{:type => 'file', :onchange => 'readURL(this)', :style => 'margin: 0'}
+  %br
+  %img#selected_image
+
 #image_list
   %h3 Lijst
   %br
@@ -32,12 +38,6 @@
           %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name}
   - else
     Selecteer een tag...
-
-#chosen_image
-  %h3 Kies een bestand
-  %input{:type => 'file', :onchange => 'readURL(this)', :style => 'margin: 0'}
-  %br
-  %img#selected_image
 
 %p
   %a{:href => '/upload'} Nieuw Bestand Uploaden
