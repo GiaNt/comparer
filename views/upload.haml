@@ -3,10 +3,19 @@
     %label{:for => 'award'} Award
     %input{:type => 'text', :name => 'award', :placeholder => 'Award', :id => 'award'}
   %p
+    %label{:for => 'view'} View
+    %label{:style => 'width:auto;float:none;display:block;margin-left:104px'}
+      %input{:type => 'radio', :name => 'view', :value => 'obverse'}
+      Obverse
+    %label{:style => 'width:auto;float:none;display:block;margin-left:104px'}
+      %input{:type => 'radio', :name => 'view', :value => 'reverse'}
+      Reverse
+  %p
     %label{:for => 'review'} Review
     %select{:name => 'review', :style => 'margin-left: 110px;display: block', :id => 'review'}
       %option{:value => 'fake'} Fake
       %option{:value => 'original'} Original
+      %option{:value => 'undefined'} Undefined
   %p
     %label{:for => 'maker'} Maker
     %input{:type => 'text', :name => 'maker', :placeholder => 'Maker', :id => 'maker'}

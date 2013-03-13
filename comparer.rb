@@ -17,6 +17,7 @@ module Comparer
 
     #key :tags, Array, typecast: 'String'
     key :award,    String
+    key :view,     String
     key :review,   String
     key :maker,    String
     key :material, String

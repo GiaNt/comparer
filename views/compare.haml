@@ -7,6 +7,7 @@
     %option{:value => ''} -- review --
     %option{:value => 'fake'} Fake
     %option{:value => 'original'} Original
+    %option{:value => 'undefined'} Undefined
   %select{:name => 'maker', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- maker --
     - Comparer::Picture.makers.each do |maker|
@@ -19,16 +20,16 @@
   %input{:type => 'submit', :value => 'Show Pictures'}
 
 #chosen_image
-  %h3
-    Browse and choose a picture
-    |
-    %a{:href => '/upload'} Upload new file
+  %h3 Choose a picture to compare
   %input{:type => 'file', :onchange => 'readURL(this)', :style => 'margin: 0'}
   %br
   %img#selected_image
 
 #image_list
-  %h3 Existing picture list
+  %h3
+    Picture library
+    |
+    %a{:href => '/upload'} Add picture to library
   %br
  
   - if @pictures
