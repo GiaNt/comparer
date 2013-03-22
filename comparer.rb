@@ -15,13 +15,66 @@ module Comparer
     include MongoMapper::Document
     plugin Joint
 
-    #key :tags, Array, typecast: 'String'
-    key :award,    String
-    key :view,     String
-    key :review,   String
-    key :maker,    String
-    key :material, String
-    key :reverse,  String
+    MAKERS = [
+      # plaats - juweliernaam - juwelier - maker
+      'Lüdenscheid - Deumer Kom.-Ges. - Wilhelm - Deumer Kom.-Ges. Wilhelm (Lüdenscheid)',
+      'Karlsruhe - Bertsch - L. - Bertsch L. (Karlsruhe)',
+      'Oberstein - Ziemer & Söhne - / - Ziemer & Söhne (Oberstei)',
+      'Pforzheim - Liefergemeinschaft Pforzheimer Innungen - / - Liefergemeinschaft Pforzheimer Innungen (Pforzhei)',
+      'Pforzheim - Zimmermann - C.F. - Zimmermann C. F. (Pforzheim)',
+      'Pforzheim - Mayer - B.H. - Mayer B.H. (Pforzheim)',
+      'Schwäbisch Gmünd - Rettenmaier - Alois - Rettenmaier Alois (Schwäbisch Gmünd)',
+      'Saarlautern - Redo - Werner - Redo Werner (Saarlautern)',
+      'Oberstein - Reischauer - Franz - Reischauer Franz (Oberstein)',
+      'Berlin - Stubbe - Afred - Stubbe Afred (Berlin)',
+      'Wien VII - Souval - Rudolf - Souval Rudolf (Wien VII)',
+      'Dresden - Glaser & Sohn - / - Glaser & Sohn (Dresden)',
+      'Berlin - Meybauer - Paul - Meybauer Paul (Berlin)',
+      'Gablonz - Stärz - R. - Stärz R. (Gablonz)',
+      'Lüdenscheid - Sieper & Söhne - Richard - Sieper & Söhne Richard (Lüdenscheid)',
+      'Schwäbisch Gmünd - Scheurle - Franz - Scheurle Franz (Schwäbisch Gmünd)',
+      'Gablonz - Zappe - Otto - Zappe Otto (Gablonz)',
+      'Pforzheim - Hauschild - R. - Hauschild R. (Pforzheim)',
+      'Berlin - Juncker - C. E. - Juncker C. E. (Berlin)',
+      'Pforzheim - Schickle - Otto - Schickle Otto (Pforzheim)',
+      'Pforzheim - Förster & Barth - / - Förster & Barth (Pforzheim)',
+      'Berlin - Godet &. Co. - Gebr. - Godet &. Co. Gebr. (Berlin)',
+      'Bonn - Hofstätter - Ferd. - Hofstätter Ferd. (Bonn)',
+      'Dresden - Osang - G.H. - Osang G.H. (Dresden)',
+      'Gablonz a. N. - Noswitz - A. - Noswitz A. (Gablonz a. N.)',
+      'Gablonz a. N. - Schmidt - F. - Schmidt F. (Gablonz a. N.)',
+      'Gablonz a. N. - Miksch - G. - Miksch G. (Gablonz a. N.)',
+      'Gablonz a. N. - Wander - Heinrich - Wander Heinrich (Gablonz a. N.)',
+      'Gablonz a. N. - Klampt und Söhne - / - Klampt und Söhne (Gablonz a. N.)',
+      'Gablonz a. N. - Simm und Söhne - R. - Simm und Söhne R. (Gablonz a. N.)',
+      'Gablonz a. N. - Walter & Henlein - / - Walter & Henlein (Gablonz a. N.)',
+      'Gablonz a. N. - Hermann - / - Hermann (Gablonz a. N.)',
+      'Gablonz a. N. - Seiboth - R. - Seiboth R. (Gablonz a. N.)',
+      'Gablonz a. N. - Pala - W. - Pala W. (Gablonz a. N.)',
+      'Gablonz - Tham - August G. - Tham August G. (Gablonz)',
+      'Hanau - Ochs & Bonn - / - Ochs & Bonn (Hanau)',
+      'Lüdenscheid - Linden - Friedrich - Linden Friedrich (Lüdenscheid)',
+      'Lüdenscheid - Siegel & Söhne - Richard - Siegel & Söhne Richard (Lüdenscheid)',
+      'Lüdenscheid - Steinhauer & Lück - / - Steinhauer & Lück (Lüdenscheid)',
+      'Markneukirchen - Brehmer - Gustav - Brehmer Gustav (Markneukirchen)',
+      'Markneukirchen - Wurster - Karl - Wurster Karl (Markneukirchen)',
+      'Mittweida - Wächtler & Lange - / - Wächtler & Lange (Mittweida)',
+      'Mühlhausen/Th. - Danner - G. - Danner G. (Mühlhausen/Th.)',
+      'München - Deschler & Sohn - / - Deschler & Sohn (München)',
+      'Oberstein - Keller - Friedrich - Keller Friedrich (Oberstein)',
+      'Schlag - Richter - Rudolf - Richter Rudolf (Schlag)',
+      'Schrobenhausen - Poellath - Carl - Poellath Carl (Schrobenhausen)',
+      'Schwäbisch Gmünd - Forster & Graf - / - Forster & Graf (Schwäbisch Gmünd)',
+      'Wien XVL - Türḱs Wwe. - Ph. - Türḱs Wwe. Ph. (Wien XVL)',
+      'Wien - Orth - Friedrich - Orth Friedrich (Wien)',
+      'Wien - Gnad - Hans - Gnad Hans (Wien)'
+    ]
+
+    key :maker,        String
+    key :review,       String
+    key :packing,      String
+    key :picture_view, String
+    key :origin,       String
 
     timestamps!
     attachment :file
@@ -33,18 +86,6 @@ module Comparer
     #def self.tags
     #  fields(:tags).flat_map(&:tags).uniq
     #end
-
-    def self.awards
-      fields(:award).map(&:award).uniq.compact
-    end
-
-    def self.makers
-      fields(:maker).map(&:maker).uniq.compact
-    end
-
-    def self.materials
-      fields(:material).map(&:material).uniq.compact
-    end
 
     #def tag_names=(given_tags)
     #  self.tags = given_tags.split(/,\s*/).map(&:downcase)
@@ -62,20 +103,20 @@ module Comparer
     get '/compare' do
       title 'Compare Pictures'
 
-      if params[:award] && !params[:award].empty?
-        @pictures = (@pictures || Picture).where(:award => params[:award])
+      if params[:maker] && !params[:maker].empty?
+        @pictures = (@pictures || Picture).where(:maker => params[:maker])
       end
       if params[:review] && !params[:review].empty?
         @pictures = (@pictures || Picture).where(:review => params[:review])
       end
-      if params[:maker] && !params[:maker].empty?
-        @pictures = (@pictures || Picture).where(:maker => params[:maker])
+      if params[:packing] && !params[:packing].empty?
+        @pictures = (@pictures || Picture).where(:packing => params[:packing])
       end
-      if params[:material] && !params[:material].empty?
-        @pictures = (@pictures || Picture).where(:material => params[:material])
+      if params[:picture_view] && !params[:picture_view].empty?
+        @pictures = (@pictures || Picture).where(:picture_view => params[:picture_view])
       end
-      if params[:reverse] && !params[:reverse].empty?
-        @pictures = (@pictures || Picture).where(:reverse => params[:reverse])
+      if params[:origin] && !params[:origin].empty?
+        @pictures = (@pictures || Picture).where(:origin => params[:origin])
       end
 
       haml :compare
@@ -92,11 +133,11 @@ module Comparer
       picture.file = params[:picture][:tempfile]
       picture.file_name = params[:picture][:filename]
       #picture.tag_names = params[:tags]
-      picture.award = params[:award]
-      picture.review = params[:review]
       picture.maker = params[:maker]
-      picture.material = params[:material]
       picture.review = params[:review]
+      picture.packing = params[:packing]
+      picture.picture_view = params[:picture_view]
+      picture.origin = params[:origin]
 
       haml :upload and return unless picture.save
 

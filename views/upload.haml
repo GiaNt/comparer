@@ -1,36 +1,41 @@
 %form{:action => '/upload', :method => 'POST', :enctype => 'multipart/form-data'}
+  %p{:style => 'margin-bottom:0;margin-left:160px'} <b>place - jeweler name - jeweler - maker</b>
   %p
-    %label{:for => 'award'} Award
-    %input{:type => 'text', :name => 'award', :placeholder => 'Award', :id => 'award'}
-  %p
-    %label{:for => 'view'} View
-    %label{:style => 'width:auto;float:none;display:block;margin-left:104px'}
-      %input{:type => 'radio', :name => 'view', :value => 'obverse'}
-      Obverse
-    %label{:style => 'width:auto;float:none;display:block;margin-left:104px'}
-      %input{:type => 'radio', :name => 'view', :value => 'reverse'}
-      Reverse
+    %label{:for => 'maker'} Maker
+    %select{:name => 'maker', :style => 'margin-left: 160px;display: block', :id => 'maker'}
+      - Comparer::Picture::MAKERS.each do |maker|
+        %option{:value => maker}= maker
   %p
     %label{:for => 'review'} Review
-    %select{:name => 'review', :style => 'margin-left: 110px;display: block', :id => 'review'}
+    %select{:name => 'review', :style => 'margin-left: 160px;display: block', :id => 'review'}
       %option{:value => 'fake'} Fake
       %option{:value => 'original'} Original
       %option{:value => 'undefined'} Undefined
   %p
-    %label{:for => 'maker'} Maker
-    %input{:type => 'text', :name => 'maker', :placeholder => 'Maker', :id => 'maker'}
+    %label{:for => 'packing'} Packing
+    %select{:name => 'packing', :style => 'margin-left: 160px;display: block', :id => 'packing'}
+      %option{:value => 'etui'} Etui
+      %option{:value => 'bag'} Bag
   %p
-    %label{:for => 'material'} Material
-    %input{:type => 'text', :name => 'material', :placeholder => 'Materiaal', :id => 'material'}
+    %label{:for => 'picture_view'} Pictureview Cross
+    %select{:name => 'picture_view', :style => 'margin-left: 160px;display: block', :id => 'picture_view'}
+      %option{:value => 'reverse'} Reverse View
+      %option{:value => 'obverse'} Obverse View
   %p
-    %label{:for => 'reverse'} Reverse
-    %select{:name => 'reverse', :style => 'margin-left: 110px;display: block', :id => 'reverse'}
-      %option{:value => 'hollow'} Hollow
-      %option{:value => 'full'} Full
-      %option{:value => 'semi-hollow'} Semi-Hollow
-    -#%input{:type => 'text', :name => 'reverse', :placeholder => 'Reverse', :id => 'reverse'}
+    %label{:for => 'origin'} Origin
+    %select{:name => 'origin', :style => 'margin-left: 160px;display: block', :id => 'origin'}
+      %option{:value => 'owner'} Owner
+      %option{:value => 'market'} Market
+      %option{:value => 'undefined'} Undefined
   %p
     %label{:for => 'pictures'} File
     %input{:type => 'file', :name => 'picture', :id => 'pictures'}
+  .help
+    %p Please be aware you only put mothercrosses into the library with the following conditions:
+    %ol
+      %li Only add pictures with a maximum view on the cross (obverse or reverse), and make sure that in an obverse view the structure is clearly visible.
+      %li Only add crosses that were in the packing of a maker (maker mark) so we can catalog by the specific maker.
+    %p We know that bags and etuis are randomly mixed, but hey... If we don't try we will never get anywhere.
+    %p If the cross is originally from a family, the added value will be much higher...
   %p
     %input{:type => 'submit', :value => 'Upload Picture'}
