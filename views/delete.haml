@@ -1,0 +1,8 @@
+%form{:action => '/pictures/delete', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'picture_id', :value => params[:id]}
+  %p
+    Enter password to remove this picture:
+    <br>
+    %input{:type => 'password', :name => 'password', :id => 'password', :style => 'margin-left: 0'}
+  %p
+    %input{:type => 'submit', :value => 'Remove Picture'}

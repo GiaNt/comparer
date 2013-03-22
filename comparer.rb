@@ -2,6 +2,8 @@ require 'bundler'
 Bundler.require(:default)
 
 module Comparer
+  PASSWORD = 'azerty'
+
   def self.app(db)
     MongoMapper.database = db
     App
@@ -96,18 +98,39 @@ module Comparer
       picture.review = params[:review]
       picture.maker = params[:maker]
       picture.material = params[:material]
-      picture.review = params[:review]
 
       haml :upload and return unless picture.save
 
       redirect '/compare'
     end
 
-    get '/pictures/:id' do |name|
+    get '/pictures/:id/delete' do
+      title 'Remove a picture'
+
+      haml :delete
+    end
+
+    post '/pictures/delete' do
+      if params[:password] == PASSWORD
+        picture = Picture.find!(params[:picture_id])
+        picture.destroy
+      end
+
+      redirect '/pictures'
+    end
+
+    get '/pictures/:id' do
       picture = Picture.find!(params[:id])
 
       content_type picture.file.type
       picture.file.read
+    end
+
+    get '/pictures' do
+      title 'Picture List'
+      @pictures = Picture.sort(:file_name).all
+
+      haml :list
     end
 
     get '/*' do
