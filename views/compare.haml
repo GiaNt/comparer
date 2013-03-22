@@ -37,8 +37,13 @@
  
   - if @pictures
     %ul{:style => 'margin-top:22px'}
-      - @pictures.each do |picture|
+      - @pictures.each_with_index do |picture, index|
         %li.image
           %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id}
+          %br
+          Foto
+          = index + 1
+          van
+          = @pictures.size
   - else
     Select filter options...
