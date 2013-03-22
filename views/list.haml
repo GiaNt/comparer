@@ -2,5 +2,7 @@
   - @pictures.each do |picture|
     %li
       %a{:href => "/pictures/#{picture.id}"}= picture.file_name
+      | Maker:
+      = picture.maker
       |
       %a{:href => "/pictures/#{picture.id}/delete", :title => 'Remove this picture'} x
