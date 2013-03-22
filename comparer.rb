@@ -69,7 +69,7 @@ module Comparer
       'Türḱs Wwe. Ph. (Wien XVL)',
       'Orth Friedrich (Wien)',
       'Gnad Hans (Wien)'
-    ]
+    ].sort
 
     key :maker,        String
     key :review,       String
