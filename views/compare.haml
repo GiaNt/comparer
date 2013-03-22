@@ -42,11 +42,11 @@
     %ul{:style => 'margin-top:22px'}
       - @pictures.each_with_index do |picture, index|
         %li.image
-          %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id}
-          %br
+          %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id, :style => 'display:block'}
           Foto
           = index + 1
           van
           = @pictures.size
+          %br
   - else
     Select filter options...
