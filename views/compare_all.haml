@@ -20,7 +20,10 @@
   %input{:type => 'submit', :value => 'Show Pictures'}
 
 #chosen_image
-  %h3 Complete library
+  %h3
+    Complete library
+    |
+    %a{:href => '/compare'} Choose local picture
   %br
   %ul.images{:style => 'margin-top:22px'}
     - Comparer::Picture.sort(:file_name).each do |picture|
