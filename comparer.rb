@@ -83,6 +83,28 @@ module Comparer
       haml :compare
     end
 
+    get '/compare_all' do
+      title 'Compare All'
+
+      if params[:award] && !params[:award].empty?
+        @pictures = (@pictures || Picture).where(:award => params[:award])
+      end
+      if params[:review] && !params[:review].empty?
+        @pictures = (@pictures || Picture).where(:review => params[:review])
+      end
+      if params[:maker] && !params[:maker].empty?
+        @pictures = (@pictures || Picture).where(:maker => params[:maker])
+      end
+      if params[:material] && !params[:material].empty?
+        @pictures = (@pictures || Picture).where(:material => params[:material])
+      end
+      if params[:reverse] && !params[:reverse].empty?
+        @pictures = (@pictures || Picture).where(:reverse => params[:reverse])
+      end
+
+      haml :compare_all
+    end
+
     get '/upload' do
       title 'Upload New Picture'
 

@@ -1,0 +1,55 @@
+%form{:action => '/compare_all', :method => 'GET'}
+  %select{:name => 'award', :style => 'margin-bottom: 3px'}
+    %option{:value => ''} -- award --
+    - Comparer::Picture.awards.each do |award|
+      %option{:value => award, :selected => params[:award] == award}= award
+  %select{:name => 'review', :style => 'margin-bottom: 3px'}
+    %option{:value => ''} -- review --
+    %option{:value => 'fake'} Fake
+    %option{:value => 'original'} Original
+    %option{:value => 'undefined'} Undefined
+  %select{:name => 'maker', :style => 'margin-bottom: 3px'}
+    %option{:value => ''} -- maker --
+    - Comparer::Picture.makers.each do |maker|
+      %option{:value => maker, :selected => params[:maker] == maker}= maker
+  %select{:name => 'reverse', :style => 'margin-bottom:3px;'}
+    %option{:value => ''} -- reverse --
+    %option{:value => 'hollow'} Hollow
+    %option{:value => 'full'} Full
+    %option{:value => 'semi-hollow'} Semi-Hollow
+  %input{:type => 'submit', :value => 'Show Pictures'}
+
+#chosen_image
+  %h3 Complete library
+  %br
+  %ul.images{:style => 'margin-top:22px'}
+    - Comparer::Picture.sort(:file_name).each do |picture|
+      %li.image
+        %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id, :style => 'display:block'}
+        = picture.file_name
+        |
+        = picture.maker
+
+#image_list
+  %h3
+    Filtered library
+    |
+    %a{:href => '/upload'} Add picture to library
+    |
+    %a{:href => '/pictures'} List pictures
+  %br
+ 
+  - if @pictures
+    %ul.images{:style => 'margin-top:22px'}
+      - @pictures.each do |picture|
+        %li.image
+          %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id, :style => 'display:block'}
+          Picture
+          = index + 1
+          of
+          = @pictures.size
+          |
+          = picture.maker
+          %br
+  - else
+    Select filter options...
