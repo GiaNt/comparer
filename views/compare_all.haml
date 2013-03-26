@@ -1,22 +1,26 @@
 %form{:action => '/compare_all', :method => 'GET'}
-  %select{:name => 'award', :style => 'margin-bottom: 3px'}
-    %option{:value => ''} -- award --
-    - Comparer::Picture.awards.each do |award|
-      %option{:value => award, :selected => params[:award] == award}= award
+  %select{:name => 'maker', :style => 'margin-bottom: 3px'}
+    %option{:value => ''} -- maker --
+    - Comparer::Picture::MAKERS.each do |maker|
+      %option{:value => maker, :selected => params[:maker] == maker}= maker
   %select{:name => 'review', :style => 'margin-bottom: 3px'}
     %option{:value => ''} -- review --
     %option{:value => 'fake'} Fake
     %option{:value => 'original'} Original
     %option{:value => 'undefined'} Undefined
-  %select{:name => 'maker', :style => 'margin-bottom: 3px'}
-    %option{:value => ''} -- maker --
-    - Comparer::Picture.makers.each do |maker|
-      %option{:value => maker, :selected => params[:maker] == maker}= maker
-  %select{:name => 'reverse', :style => 'margin-bottom:3px;'}
-    %option{:value => ''} -- reverse --
-    %option{:value => 'hollow'} Hollow
-    %option{:value => 'full'} Full
-    %option{:value => 'semi-hollow'} Semi-Hollow
+  %select{:name => 'packing', :style => 'margin-bottom: 3px'}
+    %option{:value => ''} -- packing --
+    %option{:value => 'etui'} Etui
+    %option{:value => 'bag'} Bag
+  %select{:name => 'picture_view', :style => 'margin-bottom: 3px;'}
+    %option{:value => ''} -- pictureview cross --
+    %option{:value => 'reverse'} Reverse View
+    %option{:value => 'obverse'} Obverse View
+  %select{:name => 'origin', :style => 'margin-bottom: 3px;'}
+    %option{:value => ''} -- origin --
+    %option{:value => 'owner'} Owner
+    %option{:value => 'market'} Market
+    %option{:value => 'undefined'} Undefined
   %input{:type => 'submit', :value => 'Show Pictures'}
 
 #chosen_image
@@ -38,10 +42,10 @@
     |
     %a{:href => '/pictures'} List pictures
   %br
- 
+
   - if @pictures
-    %ul.images{:style => 'margin-top:22px'}
-      - @pictures.each do |picture|
+    %ul{:style => 'margin-top:22px'}
+      - @pictures.each_with_index do |picture, index|
         %li.image
           %img{:src => "/pictures/#{picture.id}", :alt => picture.file.name, :id => picture.id, :style => 'display:block'}
           Picture
