@@ -24,7 +24,10 @@
   %input{:type => 'submit', :value => 'Show Pictures'}
 
 #chosen_image
-  %h3 Choose a picture to compare
+  %h3
+    Choose a picture to compare
+    |
+    %a{:href => '/compare_all'} Show entire library
   %input{:type => 'file', :onchange => 'readURL(this)', :style => 'margin: 0'}
   %br
   %img#selected_image
